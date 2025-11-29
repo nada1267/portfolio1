@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Portfolio</title>
+
+<style>
+/* ===== RESET ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+    transition: background 0.3s, color 0.3s;
+    padding-top: 70px;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+nav h1 { font-size: 22px; color: #00e1ff; }
+nav ul { list-style: none; display: flex; gap: 25px; }
+nav ul li a { text-decoration: none; color: inherit; font-size: 15px; transition: .3s; }
+nav ul li a:hover { color: #00e1ff; }
+
+/* ===== MODE BUTTON ===== */
+#mode-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(145deg, #ffd700, #ff8c00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: 0.5s;
+}
+body.light-mode #mode-toggle {
+    background: linear-gradient(145deg, #4b6cb7, #182848);
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 50px;
+    min-height: 40vh;
+    margin-top: -30px;
+}
+
+.hero-text h1 {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+}
+.hero-text h1 span { color: #00e1ff; }
+
+.hero-text p {
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin-bottom: 50px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.hero-text button {
+    background: #00e1ff;
+    color: #0f0f0f;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.hero-text button:hover {
+    background: #00b8d4;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 225, 255, 0.3);
+}
+
+.hero-img img {
+    max-width: 320px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+/* ===== PROJECTS ===== */
+.projects {
+    padding: 0 50px 50px 50px;
+}
+.projects h2 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #00e1ff;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid #222;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.6);
+}
+.card h3 { color: #00e1ff; }
+
+/* ===== CONTACT SECTION ===== */
+.contact {
+    padding: 30px 50px 50px 50px;
+    text-align: center;
+}
+.contact h2 { font-size: 38px; margin-bottom: 20px; color: #00e1ff; }
+
+/* Contact Icons */
+.contact-icons {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 15px 0;
+}
+
+.contact-icons img {
+    width: 42px;
+    height: 42px;
+    transition: 0.3s ease;
+}
+
+/* Hover Glow Colors */
+.contact-icons a:nth-child(1):hover img { 
+    filter: drop-shadow(0 0 8px #ff4d4d);
+    transform: scale(1.15);
+}
+.contact-icons a:nth-child(2):hover img { 
+    filter: drop-shadow(0 0 8px #0a66c2);
+    transform: scale(1.15);
+}
+.contact-icons a:nth-child(3):hover img { 
+    filter: drop-shadow(0 0 8px #ffffff);
+    transform: scale(1.15);
+}
+
+/* ===== LIGHT MODE FIXES ===== */
+body.light-mode {
+    background: #f5f5f5;
+    color: #111;
+}
+
+body.light-mode nav {
+    background: rgba(255,255,255,0.8);
+    color: #111;
+}
+
+/* FIX: Project cards readable in light mode */
+body.light-mode .card {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    color: #111;
+}
+
+body.light-mode .card h3 {
+    color: #0077cc;
+}
+
+body.light-mode .card p {
+    color: #333;
+    opacity: 1;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+    <h1>NEDO TECH</h1>
+    <div style="display:flex; align-items:center; gap:20px;">
+        <ul style="display:inline-flex; gap:20px;">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button id="mode-toggle">☀️</button>
+    </div>
+</nav>
+
+<section id="home" class="hero">
+    <div class="hero-text">
+        <h1>Hello, I'm <span>Nada</span></h1>
+        <p>AI Engineer & Data Analyst specializing in Machine Learning, Deep Learning, and building intelligent data-driven solutions.</p>
+        <button>View My Work</button>
+    </div>
+
+    <div class="hero-img">
+        <img src="C:\Users\MG\Downloads\photo_2025-11-29_02-28-12-removebg-preview.png" alt="My Photo">
+    </div>
+</section>
+
+<section id="projects" class="projects">
+    <h2>Featured Projects</h2>
+
+    <div class="project-grid">
+        <div class="card">
+            <h3>Sales Forecasting Model</h3>
+            <p>Time-series forecasting using LSTM & Prophet with 95% accuracy.</p>
+        </div>
+
+        <div class="card">
+            <h3>Customer Segmentation</h3>
+            <p>K-means and clustering insights to improve market targeting.</p>
+        </div>
+
+        <div class="card">
+            <h3>AI Chatbot</h3>
+            <p>Natural language assistant built with NLP and Flask.</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <h2>Contact Me</h2>
+
+    <div class="contact-icons">
+        <a href="mailto:na6513210@gmail.com" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+        </a>
+
+        <a href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/3536/3536505.png" alt="LinkedIn">
+        </a>
+
+        <a href="https://github.com/YOUR-GITHUB" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub">
+        </a>
+    </div>
+
+    <p>Email: na6513210@gmail.com</p>
+    <p>LinkedIn | GitHub</p>
+</section>
+
+<script>
+// Dark / Light Mode Toggle
+const toggle = document.getElementById('mode-toggle');
+toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    toggle.textContent = document.body.classList.contains('light-mode') ? '🌙' : '☀️';
+});
+
+// Smooth Scroll
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        window.scrollTo({
+            top: target.offsetTop - 70,
+            behavior: 'smooth'
+        });
+    });
+});
+
+// View My Work Button
+document.querySelector('.hero-text button').addEventListener('click', () => {
+    document.querySelector('#projects').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>
